@@ -14,7 +14,7 @@ number=$(( RANDOM % 100 + 1 ))
 guess=-1
 
 while [[ "$guess" -ne $number ]]; do
-    read -p "Please guess a number between 1 and 100: " guess
+    read -r -p "Please guess a number between 1 and 100: " guess
     
     if [[ -z "$guess" ]] || ! [[ "$guess" =~ ^[0-9]+$ ]]; then
         echo "Please enter a valid number."
