@@ -20,6 +20,10 @@ The Guessing Game helps beginners learn programming fundamentals through an inte
 - Operating System: Linux
 - Tools: VS Code, Git, GitHub, Linux Terminal
 
+## 📷 Screenshots
+
+![bash script](<assets/images/Screenshot From 2026-10-24 10-22-03.png>)
+
 ## 🖥 Features
 
 - Random number generation
@@ -27,6 +31,16 @@ The Guessing Game helps beginners learn programming fundamentals through an inte
 - High and low hints
 - Attempt counter
 - Win message when the correct number is guessed
+
+## ⚙ Installation & Setup
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/guessing_game.git
+cd guessing_game
+bash guessing_game
+```
 
 ## 🧠 Challenges Faced
 
@@ -53,5 +67,9 @@ The Guessing Game helps beginners learn programming fundamentals through an inte
 ## 👨🏽‍💻 Author
 
 Mecaly Luther Bobbilla
+
+[mecalyluther64@gmail.com](mailto:mecalyluther64@gmail.com)
+
 Junior Developer | Software Engineering
+
 Based in Cameroon.
