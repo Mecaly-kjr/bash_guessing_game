@@ -34,7 +34,7 @@ Standard terminal guessing games lack persistence, fail to scale dynamically for
 
 ## 🖥 Features
 
-- **Optional Multi-Tier Difficulty Engine:** Set bounds seamlessly via command line parameters to initialize `easy` (1–50), `normal` (1–100), or `hard` (1–1000) modes.
+- **Optional Multi-Tier Difficulty Engine:** Set bounds seamlessly via command-line parameters to initialize `easy` (1–50), `normal` (1–100), or `hard` (1–1000) modes.
 - **Corrupt File Data Recovery Engine:** Automatically identifies, isolates, and counts structural database string issues, showing an alert to users on startup without stopping the game.
 - **Deduplicated Top 5 High Score Board:** Employs pipe-separated stream processors to isolate and output a user's single best game entry per level, preventing high-performers from dominating the board.
 - **Targeted Record Annihilation:** A secure validation workflow wipes a current player's stats while keeping external profiles and malformed storage artifacts completely untouched.
@@ -70,7 +70,7 @@ bash
 
 - **Preventing Variable Masking Errors:** Splitting local variable declarations from command execution streams to ensure system failures aren't concealed behind variable initialization codes.
 - **Preserving String Delimiters Through Pipelines:** Keeping strict pipe (`|`) boundaries active through complex sorting layers before converting fields into their final text format, stopping multi-word entries from breaking array positions.
-- **Selective Data Erasure via Sed/Awk Contexts:** Building regex string rules capable of selectively removing exactly matched user keys without deleting malformed lines or external usernames.
+- **Selective Data Erasure via Sed/Awk Contexts:** Building regular expression string rules capable of selectively removing exactly matched user keys without deleting malformed lines or external usernames.
 
 ---
 
