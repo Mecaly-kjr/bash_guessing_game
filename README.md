@@ -41,6 +41,12 @@ Standard terminal guessing games lack persistence, fail to scale dynamically for
 
 ---
 
+## 📷 Screenshots
+
+![alt text](<assets/images/Screenshot From 2026-10-27 12-11-52 (Edited).png>)
+![alt text](<assets/images/Screenshot From 2026-10-27 12-14-44 (Edited).png>)
+![alt text](<assets/images/Screenshot From 2026-10-27 12-18-43.png>)
+
 ## ⚙ Installation & Setup
 
 Clone the repository:
