@@ -50,7 +50,7 @@ fmt_time() { printf '%dm%02ds' $(($1 / 60)) $(($1 % 60)); }
 
 # ---- Option 1: Play Game ----
 play() {
-    local number guess tries=0 start_s start_t end_t duration best prev
+    local number guess tries=0 start_s start_t end_t duration prev
     number=$((RANDOM % (max - min + 1) + min))
     start_s=$SECONDS
     start_t=$(date "+%Y-%m-%d %H:%M:%S")
@@ -99,16 +99,19 @@ play() {
 history() {
     make_clean
     local count=0 total_tries=0 avg_tries=0
+    local human_time game_date
     
     echo -e "\n=== History for $name ==="
     echo -e "#\tLEVEL\tTRIES\tTIME\tDATE"
     
     while IFS='|' read -r p lvl st et trs secs; do
+        # Ignore unused parameter et cleanly
+        _="$et"
         if [[ "$p" == "$name" ]]; then
             ((count++))
             total_tries=$((total_tries + trs))
-            local human_time=$(fmt_time "$secs")
-            local game_date=$(echo "$st" | cut -d' ' -f1)
+            human_time=$(fmt_time "$secs")
+            game_date=$(echo "$st" | cut -d' ' -f1)
             echo -e "${count}\t${lvl}\t${trs}\t${human_time}\t${game_date}"
         fi
     done < "$clean"
@@ -128,7 +131,8 @@ leaderboard() {
     echo "Leaderboard · $level · best game per player"
     
     # Pre-flight check to see if games exist for this level
-    local checks=$(awk -F'|' -v l="$level" '$2 == l { count++ } END { print count + 0 }' "$clean")
+    local checks
+    checks=$(awk -F'|' -v l="$level" '$2 == l { count++ } END { print count + 0 }' "$clean")
     if (( checks == 0 )); then
         echo "No $level games played yet."
         return
@@ -136,18 +140,13 @@ leaderboard() {
 
     echo -e "#    PLAYER          TRIES     TIME  DATE"
     
-    # Pipeline breakdown:
-    # 1. Isolate and parse targets matching level -> Name, Tries, Seconds, YYYY-MM-DD
-    # 2. Sort by Name ascending, then Tries ascending, then Seconds ascending
-    # 3. Use awk to capture only the first encounter per unique username (their best single entry)
-    # 4. Re-sort the unique list by Tries ascending, then Seconds ascending
-    # 5. Take top 5 and visually scale fields
-    awk -F'|' -v l="$level" '$2 == l { print $1, $5, $6, substr($3,1,10) }' "$clean" | \
-    sort -k1,1 -k2,2n -k3,3n | \
-    awk '!seen[$1]++' | \
-    sort -k2,2n -k3,3n | \
+    # Pipeline fix: Keep pipe delimiters throughout the entire sort/filter sequence
+    awk -F'|' -v l="$level" '$2 == l { print $1 "|" $5 "|" $6 "|" substr($3,1,10) }' "$clean" | \
+    sort -t'|' -k1,1 -k2,2n -k3,3n | \
+    awk -F'|' '!seen[$1]++' | \
+    sort -t'|' -k2,2n -k3,3n | \
     head -n 5 | \
-    awk '{ 
+    awk -F'|' '{ 
         m = int($3 / 60); s = $3 % 60;
         time_str = sprintf("%dm%02ds", m, s);
         printf "%-5d%-16s%5d%9s  %s\n", NR, $1, $2, time_str, $4 
@@ -157,21 +156,19 @@ leaderboard() {
 # ---- Option 4: Delete History ----
 delete_history() {
     read -r -p "Are you sure you want to delete your entire history? (y/n): " confirm
-    local normalized=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+    local normalized
+    normalized=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
     
     if [[ "$normalized" == "y" || "$normalized" == "yes" ]]; then
-        local tmp_file=$(mktemp)
+        local tmp_file
+        tmp_file=$(mktemp)
         local total_before=0 total_after=0 deleted_count=0
         
         if [[ -f "$GAMES_FILE" ]]; then
-            # Track overall structural records before stripping lines
             total_before=$(wc -l < "$GAMES_FILE")
             
-            # Match fields perfectly to retain other users' data AND any un-parseable corrupt lines
             awk -F'|' -v p="$name" '
-                # If the line matches a valid game string layout for this user, drop it
                 ($1 == p && NF == 6 && $2 ~ /^(easy|normal|hard)$/) { next }
-                # Keep everything else (other players, custom format layouts, and broken rows)
                 { print }' "$GAMES_FILE" > "$tmp_file"
                 
             total_after=$(wc -l < "$tmp_file")
