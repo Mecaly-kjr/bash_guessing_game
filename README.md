@@ -1,6 +1,6 @@
 # 🏷 Guessing_game
 
- 
+ A bash terminal game where players guess a random number, save thier game history, and complete for the best scores across different difficulty levels.
 
 ## 📌 Problem Statement
 
