@@ -1,19 +1,31 @@
-# 🏷 Project Name
+# 🏷 Guessing_game
 
- Guessing_game
+ 
 
 ## 📌 Problem Statement
 
-Standard terminal guessing games lack persistence, fail to scale dynamically for varying player skill levels, and break down completely when text-based flat-file logs become corrupted by manual human intervention. This game handles structural data anomalies gracefully, provides safe isolated profiles, and guarantees robust validation checkpoints without breaking the gameplay flow.
+I developed this Bash guessing game as part of my Rebase Code Camp assignment. The project allows players to guess a randomly generated number and receive hints when their guesses are too high or too low.
+I also wanted to make the game more useful by adding different difficulty levels, saving game history, tracking personal best scores, and displaying a leaderboard.
 
 ---
 
 ## 🎯 Project Goals
 
-- Establish an active gameplay matrix across three difficulty tiers.
-- Build a text-based database filtering routine to seamlessly bypass malformed records.
-- Implement profile-isolated log cleaning that keeps other users' data pristine.
-- Formulate a deduplicated leaderboard engine sorting players by minimum attempts, then by fastest duration.
+- Create a guessing game with three difficulty levels.
+
+- Validate player names and user guesses.
+
+- Save completed games in a text file.
+
+- Display each player's game history.
+
+- Track personal best scores.
+
+- Create a leaderboard showing the top five players.
+
+- Detect damaged records without stopping the game.
+
+- Allow players to delete their own game history.
 
 ---
 
@@ -34,10 +46,25 @@ Standard terminal guessing games lack persistence, fail to scale dynamically for
 
 ## 🖥 Features
 
-- **Optional Multi-Tier Difficulty Engine:** Set bounds seamlessly via command-line parameters to initialize `easy` (1–50), `normal` (1–100), or `hard` (1–1000) modes.
-- **Corrupt File Data Recovery Engine:** Automatically identifies, isolates, and counts structural database string issues, showing an alert to users on startup without stopping the game.
-- **Deduplicated Top 5 High Score Board:** Employs pipe-separated stream processors to isolate and output a user's single best game entry per level, preventing high-performers from dominating the board.
-- **Targeted Record Annihilation:** A secure validation workflow wipes a current player's stats while keeping external profiles and malformed storage artifacts completely untouched.
+- Three difficulty levels
+
+Easy: 1–50
+
+Normal: 1–100
+
+Hard: 1–1000
+
+- Player validation: Checks that player names contain 1–20 letters, numbers, or underscores.
+
+- Game history: Saves completed games and displays the player's previous results.
+
+- Personal best: Notifies a player when they complete a game with fewer attempts than their previous best at the same difficulty.
+
+- Leaderboard: Displays the five best players for the selected difficulty.
+
+- Damaged record detection: Identifies invalid records in the game data file and skips them.
+
+- Delete history: Allows a player to delete their own records without deleting other players' records.
 
 ---
 
@@ -52,7 +79,7 @@ Standard terminal guessing games lack persistence, fail to scale dynamically for
 Clone the repository:
 
 ```bash
-git clone https://github.com
+git clone https://https://github.com/Mecaly-kjr/bash_guessing_game/pull/2
 cd bash_guessing_game
 ```
 
@@ -63,30 +90,93 @@ chmod +x guessing_game.sh
 Run the project:
 bash
 ./guessing_game.sh kevin hard
+Replace kevin with your player name and choose easy, normal, or hard.
+
+## Game Menu
+
+After starting the game, the following menu appears:
+
+1) Play
+2) My history
+3) Leaderboard
+4) Delete my history
+5) Quit
+
+Option 1 – Play: Start a new guessing game.
+
+Option 2 – My history: View completed games and average attempts.
+
+Option 3 – Leaderboard: View the top five players.
+
+Option 4 – Delete my history: Delete your saved game records.
+
+Option 5 – Quit: Exit the game.
+
+Games File Format
+
+The game stores completed results in games.txt.
+
+Each record contains six fields separated by the | character.
+
+player|level|start_time|end_time|tries|duration
+
+Example:
+
+luther|hard|2026-10-27 11:44:45|2026-10-27 11:48:36|24|231
+
+The fields represent:
+
+player: Player name.
+
+level: Game difficulty.
+
+start_time: Time the game started.
+
+end_time: Time the game finished.
+
+tries: Number of guesses.
+
+duration: Total game duration in seconds.
+
+Note: games.txt is runtime data. It is generated and updated when players complete games. It should not be committed to Git.
 
 ---
 
 ## 🧠 Challenges Faced
 
-- **Preventing Variable Masking Errors:** Splitting local variable declarations from command execution streams to ensure system failures aren't concealed behind variable initialization codes.
-- **Preserving String Delimiters Through Pipelines:** Keeping strict pipe (`|`) boundaries active through complex sorting layers before converting fields into their final text format, stopping multi-word entries from breaking array positions.
-- **Selective Data Erasure via Sed/Awk Contexts:** Building regular expression string rules capable of selectively removing exactly matched user keys without deleting malformed lines or external usernames.
+During development, I faced some difficulties with processing game records and calculating the average number of attempts.
+
+I also had to find a way to remove one player's history without affecting other players' records. Another challenge was identifying damaged lines in the data file while keeping the game running.
+
+I tested the script several times and corrected the problems as I worked on the project.
 
 ---
 
 ## 📚 What I Learned
 
-- Designing robust, standards-compliant input parameters to securely prevent execution leaks or variable cracking.
-- Structuring terminal-based data layers to support multi-column filtering, mathematical averaging, and text alignment.
-- Utilizing built-in variables like `NR` inside custom display scripts to print clean line ranks.
+- Bash functions, variables, loops, and conditions.
+
+- Reading and writing files.
+
+- Processing text using Awk.
+
+- Sorting and filtering data.
+
+- Handling temporary files.
+
+- Testing scripts with ShellCheck.
+
+- Using Git and GitHub to manage my project.
 
 ---
 
-## 🚀 Future Improvements
+## 🚀 Future ImprovementsAdd colours to the terminal interface
 
-- Add terminal color themes (Green for low, Red for high) to give immediate visual feedback.
-- Introduce advanced game telemetry, like checking the ratio of correct guesses to track player choice efficiency.
-- Build a centralized server hook to sync `games.txt` data across networked nodes.
+- Add more statistics about player performance.
+
+- Improve the game interface.
+
+- Add more game modes.
 
 ---
 
