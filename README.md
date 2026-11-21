@@ -74,101 +74,115 @@ Hard: 1–1000
 ![alt text](<assets/images/Screenshot From 2026-10-27 12-14-44 (Edited).png>)
 ![alt text](<assets/images/Screenshot From 2026-10-27 12-18-43.png>)
 
-## ⚙ Installation & Setup
+## ⚙️ Installation & Setup
 
-Clone the repository:
+### Prerequisites
+
+- Linux (Ubuntu recommended)
+- Bash
+- Git
+
+### 1. Clone the repository
 
 ```bash
-git clone https://https://github.com/Mecaly-kjr/bash_guessing_game/pull/2
+git clone https://github.com/Mecaly-kjr/bash_guessing_game.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
 cd bash_guessing_game
 ```
 
-Make the script executable:
-bash
+### 3. Make the script executable
+
+```bash
 chmod +x guessing_game.sh
+```
 
-Run the project:
-bash
-./guessing_game.sh kevin hard
-Replace kevin with your player name and choose easy, normal, or hard.
+### 4. Start the game
 
-## Game Menu
+Normal difficulty:
 
-After starting the game, the following menu appears:
+```bash
+./guessing_game.sh ama
+```
 
-1) Play
-2) My history
-3) Leaderboard
-4) Delete my history
-5) Quit
+Easy difficulty:
 
-Option 1 – Play: Start a new guessing game.
+```bash
+./guessing_game.sh ama easy
+```
 
-Option 2 – My history: View completed games and average attempts.
+Hard difficulty:
 
-Option 3 – Leaderboard: View the top five players.
+```bash
+./guessing_game.sh ama hard
+```
 
-Option 4 – Delete my history: Delete your saved game records.
+Replace `ama` with your player name.
 
-Option 5 – Quit: Exit the game.
+## 🎮 Difficulty Levels
 
-Games File Format
+| Level | Number Range |
+| Easy | 1–50 |
+| Normal | 1–100 |
+| Hard | 1–1000 |
 
-The game stores completed results in games.txt.
+Normal is the default difficulty.
 
-Each record contains six fields separated by the | character.
+## 🖥️ Menu Options
 
-player|level|start_time|end_time|tries|duration
+1. **Play:** Start a new guessing game.
+2. **My history:** Display your previous games and statistics.
+3. **Leaderboard:** Display the top five players for the selected difficulty.
+4. **Delete my history:** Delete your own game records after confirmation.
+5. **Quit:** Exit the game.
+
+## 💾 Game Data Format
+
+Finished games are saved in `games.txt`.
+
+Each record contains six fields separated by `|`:
+
+```text
+player|level|start_time|end_time|tries|duration_seconds
+```
 
 Example:
 
-luther|hard|2026-10-27 11:44:45|2026-10-27 11:48:36|24|231
+```text
+ama|hard|2026-10-24 16:45:00|2026-10-24 16:47:12|11|132
+```
 
-The fields represent:
+The program checks game records and skips damaged lines without crashing.
 
-player: Player name.
+## 🧠 How the Program Works
 
-level: Game difficulty.
+### Cleaning game records
 
-start_time: Time the game started.
+The `make_clean` function checks the game file before displaying statistics. It validates the records and copies valid lines into a temporary clean file. Damaged lines are skipped and counted.
 
-end_time: Time the game finished.
+### Leaderboard
 
-tries: Number of guesses.
-
-duration: Total game duration in seconds.
-
-Note: games.txt is runtime data. It is generated and updated when players complete games. It should not be committed to Git.
-
----
+The leaderboard filters games by the selected difficulty, finds each player's best game, sorts players by the fewest attempts and fastest time, and displays the top five.
 
 ## 🧠 Challenges Faced
 
-During development, I faced some difficulties with processing game records and calculating the average number of attempts.
-
-I also had to find a way to remove one player's history without affecting other players' records. Another challenge was identifying damaged lines in the data file while keeping the game running.
-
-I tested the script several times and corrected the problems as I worked on the project.
-
----
+- Handling different difficulty levels.
+- Validating player input and game records.
+- Keeping damaged records from breaking the program.
+- Making sure each player has only one entry on the leaderboard.
+- Deleting one player's history without affecting other players.
 
 ## 📚 What I Learned
 
-- Bash functions, variables, loops, and conditions.
-
-- Reading and writing files.
-
-- Processing text using Awk.
-
-- Sorting and filtering data.
-
-- Handling temporary files.
-
-- Testing scripts with ShellCheck.
-
-- Using Git and GitHub to manage my project.
-
----
+- Working with Bash functions, loops and conditions.
+- Reading and validating text files.
+- Using temporary files to safely update data.
+- Sorting and filtering game records.
+- Managing Git branches and commits.
+- Testing different inputs and handling errors.
 
 ## 🚀 Future ImprovementsAdd colours to the terminal interface
 
